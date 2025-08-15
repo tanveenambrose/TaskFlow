@@ -5,7 +5,7 @@ import {connectDB} from './config/db.js';
 
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const port = process.env.PORT || 4000;
 
 //Middleware to parse JSON
 app.use(cors());
@@ -13,7 +13,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //DB connection
-connectDB();
+connectDB().then(() => {
+    // Only start server if DB connection is successful
+    app.listen(port, () => {
+        console.log(`Server is running on port http://localhost:${port}`);
+    });
+}).catch(err => {
+    console.error('Failed to start server due to DB connection error:', err);
+});
 
 //Routes
 app.get('/', (req, res) => {

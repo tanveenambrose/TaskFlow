@@ -4,7 +4,7 @@ import authMiddleware from '../middleware/auth.js';
 
 const taskRouter = express.Router();
 
-taskRouter.route('/')
+taskRouter.route('/gp')
     .get(authMiddleware, getTasks)
     .post(authMiddleware, createTask);
 
